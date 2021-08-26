@@ -1,6 +1,8 @@
 import pygame
 import gpio
 import camera
+import multiprocessing
+
 
 pygame.init()
 
@@ -24,32 +26,31 @@ while not done:
             done = True
             pygame.quit()
         if event.type == pygame.JOYHATMOTION:
-            if event.value == (0, 1):
-                print("forward")
-                gpio.forward()
             if event.value == (0, -1):
+                print("forward")
+                p1.start()
+            if event.value == (0, 1):
                 print("backward")
-                gpio.backward()
+                p2.start()
             if event.value == (-1, 0):
                 print("steering left")
-                gpio.left()
+                p3.start()
             if event.value == (1, 0):
                 print("steering right")
-                gpio.right()
+                p4.start()
             if event.value == (0, 0):
                 gpio.stop()
         if event.type == pygame.JOYBUTTONDOWN:
             if event.button == 1:
                 if not optionButton:
-                    camera.start()
+                    p5.start()
                     optionButton = True
                 if optionButton:
                     camera.stop()
                     optionButton = False
+
             if event.button == 3:  # Dreieck
                 camera.photo()
-
-        # if event.button == 1: #X
 
         # if event.button == 0: #Viereck
 
