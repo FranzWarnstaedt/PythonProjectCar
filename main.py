@@ -1,12 +1,15 @@
 import pygame
 import gpio
 import camera
-import multiprocessing
 
 
 pygame.init()
 
 print("Nutze die Pfeiltasten um das Auto zu bewegen!")
+print("Mit 'X' startest du den Stream zum PC.")
+print("Mit 'Dreieck' wird ein Foto erstellt.")
+print("Mit 'Viereck' wird ein Video erstellt.")
+print("Mit 'Kreis' wird alles beendet.")
 
 optionButton = False
 done = False
@@ -28,22 +31,22 @@ while not done:
         if event.type == pygame.JOYHATMOTION:
             if event.value == (0, -1):
                 print("forward")
-                p1.start()
+                gpio.forward()
             if event.value == (0, 1):
                 print("backward")
-                p2.start()
+                gpio.backward()
             if event.value == (-1, 0):
                 print("steering left")
-                p3.start()
+                gpio.left()
             if event.value == (1, 0):
                 print("steering right")
-                p4.start()
+                gpio.right()
             if event.value == (0, 0):
                 gpio.stop()
         if event.type == pygame.JOYBUTTONDOWN:
-            if event.button == 1:
+            if event.button == 1: # X
                 if not optionButton:
-                    p5.start()
+                    camera.start()
                     optionButton = True
                 if optionButton:
                     camera.stop()
@@ -52,8 +55,10 @@ while not done:
             if event.button == 3:  # Dreieck
                 camera.photo()
 
-        # if event.button == 0: #Viereck
+            if event.button == 0: # Viereck
+                camera.video()
 
-        # if event.button == 2: #Kreis
+            if event.button == 2: #Kreis
+                done = True
 
 pygame.quit()

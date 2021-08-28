@@ -9,7 +9,6 @@ client_socket = socket.socket()
 
 client_socket.connect(('192.168.2.201', 8000))
 
-
 connection = client_socket.makefile('wb')
 
 
@@ -45,4 +44,20 @@ def stop():
 
 
 def photo():
-    camera.capture('Foto.jpg')
+    time.sleep(2)
+    camera.resolution = (1280, 720)
+    photo_name = "/home/pi/Python/Projekt/Bilder/img_" + str(time.time()) + ".jpg"
+    camera.capture(photo_name)
+    print("Bild erstellt.")
+
+
+def video():
+    time.sleep(2)
+    camera.resolution = (1280, 720)
+    camera.contrast = 10
+    video_name = "/home/pi/Python/Projekt/Video/video_" + str(time.time()) + ".h264"
+    print("Starte Aufnahme...")
+    camera.start_recording(video_name)
+    camera.wait_recording(5)
+    camera.stop_recording()
+    print("Video aufgenommen.")
