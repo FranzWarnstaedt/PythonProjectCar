@@ -1,5 +1,4 @@
 import RPi.GPIO as GPIO
-import multiprocessing
 
 GPIO.setwarnings(False)
 
